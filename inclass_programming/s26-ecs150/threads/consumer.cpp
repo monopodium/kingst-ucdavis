@@ -9,9 +9,15 @@ CokeMachine machine;
 
 void consumer() {
   cokeLock.lock();
+
+  while (numCokes == 0) {
+    wait(hasCoke, cokeLock);
+  }
   
   machine.removeCoke();
   numCokes--;
+
+  signal(hasRoom);
   
   cokeLock.unlock();
 }
