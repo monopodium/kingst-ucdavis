@@ -14,15 +14,10 @@ void philosopher(int id) {
     // is hungry, grab chopsticks
     lock.lock();
     // grab the left chopstick
-    while (chopstickInUse[leftIdx(id)]) {
+    while (chopstickInUse[leftIdx(id)] || chopstickInUse[rightIdx(id)]) {
       wait(chopstickFree, lock);
     }
     chopstickInUse[leftIdx(id)] = true;
-
-    // grab the right chopstick
-    while (chopstickInUse[rightIdx(id)]) {
-      wait(chopstickFree, lock);
-    }
     chopstickInUse[rightIdx(id)] = true; 
     lock.unlock();
     
